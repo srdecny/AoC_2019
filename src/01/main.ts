@@ -1,0 +1,30 @@
+import * as ut from "../utils";
+
+let lines = ut.getLines("input.txt");
+
+function part1(input: string[]): number {
+    return input.map(l => Number(l)).reduce((acc, curr) => acc + (Math.floor(curr / 3) - 2), 0);
+}
+
+function part2(input: string[]): number {
+
+    function calculateFuel(fuel: number): number {
+        const newFuel = Math.floor(fuel / 3) - 2;
+        return newFuel >= 0 ? newFuel : 0
+    }
+    return input.map(l => Number(l)).reduce((acc, curr) => {
+        let totalFuel = 0;
+        while (true) {
+            let addedFuel = calculateFuel(curr);
+            if (addedFuel == 0) { break; }
+            totalFuel += addedFuel;
+            curr = addedFuel;
+        }
+        
+        return acc + totalFuel;
+        
+    }, 0);
+}
+
+console.log(`Part 1: ${part1(lines)}`);
+console.log(`Part 2: ${part2(lines)}`);
