@@ -4,7 +4,6 @@ let lines = ut.getLinesAs("input.txt", (s: string) => Number(s), ",");
 
 function part1(program: number[]): number[] {
 
-
     function binaryInstruction(args: number[], op: (a1: number, a2: number) => number): void {
         program[args[2]] = op(program[args[0]], program[args[1]]);
         pc += 4;
