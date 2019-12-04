@@ -14,6 +14,14 @@ export const range = (start: number, end: number): number[] => {
     } else return range(end, start);
 }
 
+export function isInRange(from: number, to: number, number: number): boolean {
+    if (to < from) {
+        return isInRange(to, from, number);
+    } else {
+        return (from <= number && number <= to);
+    }
+}
+
 export class Coords {
     x: number;
     y: number;
