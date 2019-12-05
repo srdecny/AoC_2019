@@ -22,6 +22,14 @@ export function isInRange(from: number, to: number, number: number): boolean {
     }
 }
 
+export function nthDigit(index: number, number: number): number {
+    if (index < 0) {
+        return 0;
+    }
+    var len = Math.floor( Math.log(number) / Math.LN10 ) - index;
+    return ( (number / Math.pow(10, len)) % 10) | 0; 
+}
+ 
 export class Coords {
     x: number;
     y: number;
