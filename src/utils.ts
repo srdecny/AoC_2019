@@ -29,6 +29,27 @@ export function nthDigit(index: number, number: number): number {
     var len = Math.floor( Math.log(number) / Math.LN10 ) - index;
     return ( (number / Math.pow(10, len)) % 10) | 0; 
 }
+
+export function permutations<T>(inputArr: T[]): T[][] {
+    let result: T[][] = [];
+  
+    const permute = (arr: T[], m: T[] = []) => {
+      if (arr.length === 0) {
+        result.push(m)
+      } else {
+        for (let i = 0; i < arr.length; i++) {
+          let curr = arr.slice();
+          let next = curr.splice(i, 1);
+          permute(curr.slice(), m.concat(next))
+       }
+     }
+   }
+  
+   permute(inputArr)
+  
+   return result;
+  }
+  
  
 export class Coords {
     x: number;
