@@ -1,5 +1,4 @@
 import {getLinesAs, permutations} from "../utils";
-import { exists } from "fs";
 
 let lines = getLinesAs("input.txt", (s: string) => Number(s), ",");
 

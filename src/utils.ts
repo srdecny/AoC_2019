@@ -49,6 +49,10 @@ export function permutations<T>(inputArr: T[]): T[][] {
   
    return result;
   }
+
+export function countCharacter(string: string, character: string): number {
+    return (string.match(new RegExp(character, "g")) || []).length
+}
   
  
 export class Coords {
