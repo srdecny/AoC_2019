@@ -54,7 +54,23 @@ export function countCharacter(string: string, character: string): number {
     return (string.match(new RegExp(character, "g")) || []).length
 }
   
- 
+export function shuffle<T>(a: T[]): T[] {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+export function isBetween(from: Coords, point: Coords, to: Coords): boolean {
+    function distance(a: Coords, b: Coords) {
+        return Math.sqrt((a.x - b.x)**2 + (a.y - b.y)**2);
+    }
+    return Math.abs(distance(from,to) - distance(point,to) - distance(from,point)) < 0.0001;
+}
+
+
+
 export class Coords {
     x: number;
     y: number;
