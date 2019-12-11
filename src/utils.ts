@@ -64,7 +64,7 @@ export function shuffle<T>(a: T[]): T[] {
 
 export function isBetween(from: Coords, point: Coords, to: Coords): boolean {
     function distance(a: Coords, b: Coords) {
-        return Math.sqrt((a.x - b.x)**2 + (a.y - b.y)**2);
+        return Math.abs((a.x - b.x) + Math.abs(a.y - b.y));
     }
     return Math.abs(distance(from,to) - distance(point,to) - distance(from,point)) < 0.0001;
 }
@@ -79,4 +79,20 @@ export class Coords {
         this.x = x;
         this.y = y;
     }
+
+    toString(): string {
+        return `${this.x},${this.y}`;
+    }
+
+    static fromString(string: String): Coords {
+        const [x, y] = string.split(",").map(s => Number(s));
+        return new Coords(x, y); 
+    }
+}
+
+export enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 }
