@@ -268,7 +268,7 @@ function part2() {
             if (color == undefined || color == 0) {
                 process.stdout.write(" ");
             } else {
-                process.stdout.write("■");
+                process.stdout.write("▓");
             }
         });
         console.log();
