@@ -1,7 +1,9 @@
 {
     "scripts": {},
     "dependencies": {
-        "chalk": "^3.0.0"
+        "@types/readline-sync": "^1.4.3",
+        "chalk": "^3.0.0",
+        "readline-sync": "^1.4.10"
     },
     "devDependencies": {
         "@types/node": "^12.12.14",

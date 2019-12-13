@@ -1,4 +1,5 @@
-import {getLinesAs, Coords, Direction, range} from "../utils";
+import {getLinesAs} from "../utils";
+import {keyInSelect} from "readline-sync";
 
 enum ComputerStatus {
     RUNNING,
@@ -185,94 +186,61 @@ class Computer {
 let lines = getLinesAs("input.txt", (s: string) => Number(s), ",");
 
 function part1() {
-    const computer = new Computer(lines);
-    let position = new Coords(0,0);
-    let direction = Direction.UP;
-    let painted: {[index: string]: number} = {};
-    let paintedCount = 0;
+    const arkanoid = new Computer(lines);
+    const grid: string[][] = [];        
+    let score = 0;
 
-    const turn = (right: boolean) => {
-        switch(direction) {
-            case Direction.UP:
-                direction = right ? Direction.RIGHT : Direction.LEFT
-                break;
-            case Direction.DOWN:
-                direction = right ? Direction.LEFT : Direction.RIGHT;
-                break;
-            case Direction.LEFT:
-                direction = right ? Direction.UP : Direction.DOWN;
-                break;
-            case Direction.RIGHT:
-                direction = right ? Direction.DOWN : Direction.UP;
-                break;
-        }
-    }
+    while (arkanoid.status !== ComputerStatus.HALTED) {
+        console.clear();
+        arkanoid.runProgram();
 
-    const move = () => {
-        switch (direction) {
-            case Direction.UP:
-                position = new Coords(position.x, position.y + 1);
-                break;
-            case Direction.DOWN:
-                position = new Coords(position.x, position.y - 1);
-                break;
-            case Direction.RIGHT:
-                position = new Coords(position.x + 1, position.y);
-                break;
-            case Direction.LEFT:
-                position = new Coords(position.x - 1, position.y);
-                break;
-        }
+        for (let i = 0; i < arkanoid.output.length / 3; i++) {
+            const index = i * 3;
+            const x = arkanoid.output[index]
+            const y = arkanoid.output[index + 1];
 
-    }
-
-    painted["0,0"] = 1;
-    while (computer.status !== ComputerStatus.HALTED) {
-
-        if (computer.status == ComputerStatus.WAITING) {
-            let color = painted[position.toString()] ? painted[position.toString()] : 0;
-            computer.enqueueInput([color]);    
-        }
-        computer.runProgram();
-
-        if (computer.output.length == 2) {
-            let [newColor, newDirection] = computer.output;
-            if (painted[position.toString()] == undefined) {
-                paintedCount++;
-            }
-            painted[position.toString()] = newColor;
+            let character = "";
+            if (x == -1 && y == 0) {
+                score = arkanoid.output[index + 2];
+            }  else {      
+                switch (arkanoid.output[index + 2]) {
+                    case (0):
+                        character = " ";
+                        break;
+                    case (1):
+                        character = "🧱";
+                        break;
+                    case (2):
+                        character = "🌟";
+                        break;
+                    case (3):
+                        character = "🛹";
+                        break;
+                    case (4):
+                        character = "⚽";
+                        break;
+                    default:
+                        throw new Error(`Unexpected character code: ${arkanoid.output[index + 2]}`);
+                }
     
-            turn(newDirection == 1 ? true : false);
-            move();
-            computer.output = [];
+                if (!grid[y]) {
+                    grid[y] = [];
+                }
+    
+                grid[y][x] = character;
+            }
         }
 
+        grid.forEach(row => {
+            console.log(row.join(" "));
+        })
+        console.log(`Score: ${score}`)
+
+        //let moves = ["-1", "0", "1"];
+        //let moveIndex: number = keyInSelect(moves, "Direction")
+        arkanoid.enqueueInput([0])
+        arkanoid.output = [];
     }
-    console.log(paintedCount);
-    return painted;
 }
 
-function part2() {
-    const painted = part1();
-    const coords = Object.keys(painted).map(x => Coords.fromString(x));
-
-    const minX = coords.map(c => Number(c.x)).sort((a, b) => a - b)[0];
-    const maxX = coords.map(c => Number(c.x)).sort((a, b) => a - b).reverse()[0];
-    const minY = coords.map(c => Number(c.y)).sort((a, b) => a - b)[0];
-    const maxY = coords.map(c => Number(c.y)).sort((a, b) => a - b).reverse()[0];
-
-    range(minY, maxY).reverse().forEach(y => {
-        range(minX, maxX).forEach(x => {
-            const color  = painted[`${x},${y}`];
-            if (color == undefined || color == 0) {
-                process.stdout.write(" ");
-            } else {
-                process.stdout.write("▓");
-            }
-        });
-        console.log();
-    })
-
-}
-
-part2();
+part1();
