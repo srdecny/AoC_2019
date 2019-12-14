@@ -1,8 +1,10 @@
 {
     "scripts": {},
     "dependencies": {
+        "@types/lodash": "^4.14.149",
         "@types/readline-sync": "^1.4.3",
         "chalk": "^3.0.0",
+        "lodash": "^4.17.15",
         "readline-sync": "^1.4.10"
     },
     "devDependencies": {
