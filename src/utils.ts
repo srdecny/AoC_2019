@@ -112,3 +112,38 @@ export enum Direction {
     LEFT,
     RIGHT
 }
+
+export function parseDirection(dir: string): Direction {
+	switch(dir) {
+		case "^":
+			return Direction.UP
+		case ">":
+			return Direction.RIGHT
+		case "<":
+			return Direction.LEFT
+		case "v":
+			return Direction.DOWN
+		default:
+			throw Error(`Invalid direction received: ${dir}`)
+	}
+}
+
+export function isValidCoordinate(c: Coords, maxX: number, maxY: number) {
+	return c.x >= 0 && c.y >= 0 && c.x <= maxX && c.y <= maxY 
+}
+
+export function directionToString(d: Direction): string {
+	switch (d) {
+		case Direction.UP:
+			return "^"		
+		case Direction.DOWN:
+			return "v"	
+		case Direction.LEFT:
+			return "<"	
+		case Direction.RIGHT:
+			return ">"	
+	}
+
+}
+
+
